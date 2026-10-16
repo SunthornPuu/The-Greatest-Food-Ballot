@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #fec5e8;
+  --paper-deep: #ffb5e6;
+  --cell: #fddcf0;
+  --hot: #ff65c3;
+  --ink: #140710;
+  --white: #ffffff;
+  --ballpoint: #1f3fbf;
+  --stamp-void: #d7263d;
+  --stamp-skip: #6b5a66;
+
+  /* Semantic roles (these flip at night) */
+  --bg: var(--paper);
+  --surface: var(--cell);
+  --surface-strong: var(--white);
+  --fg: var(--ink);
+  --line: var(--ink);
+  --shadow: var(--ink);
+  --muted: #5b3b50;
+  --nav-h: 0px; /* no navbar; kept so layouts can reserve space if one returns */
+  --dock-h: 132px; /* mobile tool dock in the Booth */
+  color-scheme: light;
+}
+
+/* "Night count": ink background, hot accents; the ballot itself stays pink paper. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: var(--ink);
+    --surface: #2a1222;
+    --surface-strong: #3a1a2f;
+    --fg: var(--cell);
+    --line: var(--hot);
+    --shadow: var(--hot);
+    --muted: #d9a9c6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: var(--ink);
+  --surface: #2a1222;
+  --surface-strong: #3a1a2f;
+  --fg: var(--cell);
+  --line: var(--hot);
+  --shadow: var(--hot);
+  --muted: #d9a9c6;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-cell: var(--cell);
+  --color-hot: var(--hot);
+  --color-ink: var(--ink);
+  --color-ballpoint: var(--ballpoint);
+  --color-stamp-void: var(--stamp-void);
+  --color-stamp-skip: var(--stamp-skip);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-fg: var(--fg);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --shadow-hard: 4px 4px 0 var(--shadow);
+  --shadow-hard-sm: 2px 2px 0 var(--shadow);
+  --shadow-hard-lg: 6px 6px 0 var(--shadow);
+  --radius-cell: 6px;
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+:focus-visible {
+  outline: 3px solid var(--hot);
+  outline-offset: 2px;
+}
+
+/* A bordered, hard-shadowed "ballot cell" surface */
+@utility cell {
+  background: var(--surface);
+  border: 3px solid var(--line);
+  border-radius: var(--radius-cell);
+  box-shadow: var(--shadow-hard);
+}
+
+/* Physical push button: shadow collapses on press */
+@utility press {
+  border: 3px solid var(--line);
+  border-radius: var(--radius-cell);
+  box-shadow: var(--shadow-hard);
+  transition: transform 80ms ease, box-shadow 80ms ease;
+  &:active:not(:disabled) {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 var(--shadow);
+  }
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes live-blink {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0.2; }
+}
+.live-dot { animation: live-blink 1.2s steps(1) infinite; }
+
+/* Reveal ring around the predicted box (SVG, ballot coordinates) */
+@keyframes ring-pulse {
+  0%, 100% { stroke-opacity: 1; stroke-width: 14px; }
+  50% { stroke-opacity: 0.45; stroke-width: 26px; }
+}
+.ring-pulse { animation: ring-pulse 0.9s ease-in-out infinite; }
+
+/* "Counting…" scan line */
+@keyframes scan {
+  from { top: 0%; }
+  to { top: 100%; }
+}
+.scan-line { animation: scan 1.6s ease-in-out infinite alternate; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ring-pulse, .scan-line { animation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+    scroll-behavior: auto !important;
+  }
+  .live-dot { animation: none; }
+}

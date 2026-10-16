@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Remove-Item components\\\\nav\\\\Nav.tsx; Remove-Item components\\\\nav -ErrorAction SilentlyContinue; Select-String -Path components\\\\booth\\\\Booth.tsx -Pattern 'lg:grid lg:h-|aria-label=\"Your ballot\"|Mobile tool dock|border-t-3 border-line bg-bg p-2 lg:hidden|<aside|<header>|The Booth</h1>' | ForEach-Object { \"$\\($_.LineNumber\\): $\\($_.Line.Trim\\(\\)\\)\" })",
+      "PowerShell($c = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue; if \\($c\\) { \"port 3000 listening \\(pid $\\($c[0].OwningProcess\\)\\)\"; curl.exe -s -o NUL -m 60 -w \"GET / -> %{http_code} in %{time_total}s`n\" http://localhost:3000/ } else { \"nothing listening on port 3000\" })",
+      "PowerShell(node -e \"fetch\\('https://zrflzouzrnzvxniirzyq.supabase.co/rest/v1/',{method:'HEAD'}\\).then\\(r=>console.log\\('from my shell: HTTP',r.status\\)\\).catch\\(e=>console.log\\('from my shell: failed',e.cause?.code||e.message\\)\\)\")",
+      "PowerShell(cd \"model-server\\\\U-Hackathon-Demo-ClearVote\"; \"local:  \" + \\(git log -1 --format=\"%h %ad %s\" --date=iso\\); git status --short | Select-Object -First 5; git fetch --quiet 2>&1; \"remote: \" + \\(git log -1 --format=\"%h %ad %s\" --date=iso origin/HEAD\\); \"behind by: \" + \\(git rev-list --count HEAD..origin/HEAD\\); git log --format=\"  %h %ad %s\" --date=short HEAD..origin/HEAD | Select-Object -First 10)",
+      "PowerShell(cd \"C:\\\\Users\\\\hazar\\\\Desktop\\\\Stuff\\\\clear vote\"; $s=\"C:\\\\Users\\\\hazar\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-hazar-Desktop-Stuff-clear-vote\\\\47ad37d9-ef85-4b15-8e94-78461fcfdfce\\\\scratchpad\"; python \"$s\\\\position_check.py\" model-server\\\\U-Hackathon-Demo-ClearVote public\\\\ballot.jpg \"$s\\\\ballots\\\\50c0-full.jpg=6\")"
+    ]
+  }
+}
