@@ -13,7 +13,7 @@ import { shortName } from "@/lib/candidates";
 import { PEN_COLORS, PEN_SIZES } from "@/lib/ink";
 import type { CastResult } from "@/lib/types";
 import { verdict } from "@/lib/verdict";
-import { ChallengeCards } from "./ChallengeCards";
+import { MarkGuide } from "./MarkGuide";
 import { ResultCard } from "./ResultCard";
 import { ToolDock, type ToolKind } from "./ToolDock";
 
@@ -387,7 +387,7 @@ export function Booth() {
               aria-controls="booth-panel"
               className="press flex h-11 items-center gap-1.5 bg-surface-strong px-3 text-sm font-bold"
             >
-              <Lightbulb size={18} /> Tips & sign
+              <Lightbulb size={18} /> Rules & sign
             </button>
           </div>
           {dock}
@@ -416,7 +416,7 @@ export function Booth() {
             <button
               type="button"
               onClick={() => setInfoOpen(false)}
-              aria-label="Close tips"
+              aria-label="Close rules"
               className="press ml-auto grid size-10 place-items-center bg-surface-strong lg:hidden"
             >
               <X size={18} />
@@ -424,7 +424,7 @@ export function Booth() {
           </div>
           <h1 className="mt-3 font-display text-3xl font-extrabold leading-none">The Booth</h1>
           <p className="mt-2 text-sm">
-            Put an <strong>X</strong> in one box to vote, or in the bottom pink box to abstain. Then try to fool the model.
+            Put an <strong>X</strong> in one box to vote, or in the bottom pink box to abstain.
           </p>
         </header>
         <div className="hidden gap-4 lg:grid">
@@ -436,7 +436,7 @@ export function Booth() {
             <ResultCard result={result} onAgain={again} />
           </div>
         )}
-        <ChallengeCards />
+        <MarkGuide />
         <label className="grid gap-1">
           <span className="font-display text-lg font-extrabold">Sign your ballot</span>
           <span className="text-sm">Optional. Shown in the ballot box.</span>
